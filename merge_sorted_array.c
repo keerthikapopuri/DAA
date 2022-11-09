@@ -82,4 +82,16 @@ void main()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-
+enter the size of 1st array6
+enter size of 2nd array3
+enter number of elements to be merged3
+1
+2
+3
+0
+0
+0
+2
+5
+6
+122356
