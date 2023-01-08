@@ -28,41 +28,46 @@ Constraints:
 1 <= coins[i] <= 231 - 1
 0 <= amount <= 104
 ////////////////////////////////////////////////////////////////////////////////////////////////
-#include <stdio.h>
-
-
-int coinChange(int* coins, int coinsSize, int amount){
-int a[amount+1];
-a[0]=0;
-    for(int i=1;i<=amount;i++)
-    {
-        a[i]=amount+1;
-    }
-    for(int i=1;i<=amount;i++)
-    {
-        for(int j=0;j<coinsSize;j++)
-        {
-            if(coins[j]<=i)
-            {int x=1+a[i-coins[j]];
-             int y=a[i];
-            a[i]=x<y?x:y;
+#include <iostream>
+#include<vector>
+#include<set>
+#include<algorithm>
+using namespace std;
+int coinChange(vector<int>& coins, int amount) {
+        vector<int>dp(amount+1,9999999);
+        dp[0]=0;
+        for(int i=1;i<=amount;i++){
+            for(int j=0;j<coins.size();j++){
+                if(i-coins[j]>=0){
+                    dp[i]=min(dp[i],dp[i-coins[j]]+1);
+                }
             }
         }
+        if(dp[amount]==9999999){return -1;}
+        else{return dp[amount];}
+
     }
-    if(a[amount]==amount+1)
-     return -1;
-    else
-     return a[amount];
-}
 int main()
-{int c[10],n,a;
-printf("enter n and amount");
-scanf("%d%d",&n,&a);
-printf("enter coins");
-for(int i=0;i<n;i++){
-    scanf("%d",&c[i]);
-}
-  int r=coinChange(c,n,a);
-  printf("min coins :%d",r);
+{
+   vector<int> coins;
+   int n,amt,a;
+   cout<<"entr number of coins u have";
+   cin>>n;
+   for(int i=0;i<n;i++){
+       cin>>a;
+       coins.push_back(a);
+   }
+   cout<<"enter amount";
+   cin>>amt;
+   int res=coinChange(coins,amt);
+   cout<<res;
+    return 0;
+    
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+entr number of coins u have3
+1
+2
+5
+enter amount11
+3
