@@ -37,73 +37,119 @@ lists[i] is sorted in ascending order.
 The sum of lists[i].length will not exceed 104.
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-struct ListNode* mergeTwoLists(struct ListNode* list1, struct ListNode* list2){
+#include <iostream>
+#include<vector>
+using namespace std;
+struct ListNode {
+      int val;
+     ListNode *next;
+     ListNode() : val(0), next(nullptr) {}
+     ListNode(int x) : val(x), next(nullptr) {}
+     ListNode(int x, ListNode *next) : val(x), next(next) {}
+  }*newnode,*temp;
+  struct ListNode* create( struct ListNode* head,struct ListNode* tail)
+{
+        int valu;
+        char ch;
+        do{
+                newnode=(struct ListNode *)malloc(sizeof(struct ListNode));
+                printf("enter the value: ");
+                scanf("%d",&valu);
+                newnode->val=valu;
+                newnode->next=NULL;
+                if(head==NULL)
+                {
+                        head=newnode;
+                        tail=newnode;
+                }
+                else
+                {
+                        tail->next=newnode;
+                        tail=newnode;
 
-    if(list1 == NULL && list2 == NULL){
-        return NULL;
-    }
-    
-    if(list1 == NULL){
-        return list2;
-    }
-    
-    if(list2 == NULL){
-        return list1;
-    }
-    
-  struct ListNode* main=(struct ListNode*)malloc(sizeof(struct ListNode));
-    struct ListNode* temp1=list1;
-    struct ListNode* temp2=list2;
-    struct ListNode* res=main;
-    if(temp1->val>temp2->val)
-    {
-        main->val=temp2->val;
-        temp2=temp2->next;
+                }
+                printf("Do you want to insert another element? if yes press y else n: ");
+                fflush(stdin);
+                scanf(" %c",&ch);
+        }while(ch=='y');
+    return head;
 }
-    else
-    {
-main->val=temp1->val;
-    temp1=temp1->next;}
-    main->next=NULL;
-    while(temp1!=NULL && temp2!=NULL){
-        if(temp1->val>temp2->val){
-            res->next=temp2;
-            res=temp2;
-            temp2=temp2->next;
+
+void display(struct ListNode* head)
+{
+        temp=head;
+        while(temp!=NULL)
+        {
+                printf("%d ",temp->val);
+                temp=temp->next;
+        }
+}
+
+struct ListNode* mergeTwoSorted(struct ListNode* list1,struct  ListNode* list2) {
+        if(list1 == NULL)
+            return list2;
+        if(list2 == NULL)
+            return list1;
+        
+        struct ListNode * ptr = list1;
+        if(list1 -> val > list2 -> val)
+        {
+            ptr = list2;
+            list2 = list2 -> next;
         }
         else
         {
-            res->next=temp1;
-            res=temp1;
-            temp1=temp1->next;
+            list1 = list1 -> next;
         }
-    }
-    if(temp1!=NULL){
-        while(temp1!=NULL)
+       struct ListNode *curr = ptr;
+        while(list1!=NULL &&  list2!=NULL)
         {
-              res->next=temp1;
-            res=temp1;
-            temp1=temp1->next;  
+            if(list1 -> val < list2 -> val){
+                curr->next = list1;
+                list1 = list1 -> next;
+            }
+            else{
+                curr->next = list2;
+                list2 = list2 -> next;
+            }
+            curr = curr -> next;
+                
         }
+        if(list1==NULL)
+            curr -> next = list2;
+        else
+            curr -> next = list1;
+            
+        return ptr;
+       
     }
-    if(temp2!=NULL){
-        while(temp2!=NULL)
-        {
-              res->next=temp2;
-            res=temp2;
-            temp2=temp2->next;  
+
+    
+    ListNode* mergeKLists(vector<ListNode*>& lists)
+    {
+        if(lists.size()==0) return NULL;
+        while(lists.size() > 1){
+            lists.push_back(mergeTwoSorted(lists[0], lists[1])); // time consuming 
+            // erase first 2 heads of lists
+            lists.erase(lists.begin()); // time consuming 
+            lists.erase(lists.begin());
         }
+        return lists[0];
     }
-    return main;
-}
+int main()
+{
+   int n;
+   cout<<"enter size";
+   cin>>n;
+   vector<struct ListNode*>lists;
+   for(int i=0;i<n;i++){
+       struct ListNode* head1=NULL;
+        struct ListNode* tail1=NULL;
+        head1=create(head1,tail1);
+    lists.push_back(head1);
+   }
 
-
-struct ListNode* mergeKLists(struct ListNode** lists, int listsSize){
-    if (listsSize == 0) return NULL;
-	if (listsSize == 1) return lists[0];
-	struct ListNode* result = NULL;
-	for (int i = 0; i < listsSize; i++)
-		result = mergeTwoLists(result, lists[i]);
-	return result;
-
+    display(mergeKLists(lists));
+    return 0;
+    
 }
