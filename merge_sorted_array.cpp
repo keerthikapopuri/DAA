@@ -38,8 +38,10 @@ nums2.length == n
     
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include<stdio.h>
-void merge(int* nums1, int nums1Size, int m, int* nums2, int nums2Size, int n){
+#include <iostream>
+#include<vector>
+using namespace std;
+void merge(vector<int>& nums1, int nums1Size,int m, vector<int>& nums2,int nums2Size, int n){
 int i1=m-1,i2=n-1,i=nums1Size-1;
     while(i1>=0 && i2>=0){
         if(nums1[i1]>nums2[i2]){
@@ -54,8 +56,8 @@ nums1[i--]=nums2[i2--];
     }
 } 
 }
- int nums1[100],nums2[100];
-void main()
+ vector<int>nums1,nums2;
+int main()
 {
    int num1size,num2size,m,n;
     printf("enter the size of 1st array");
@@ -65,19 +67,23 @@ void main()
     printf("enter number of elements to be merged");
     scanf("%d",&m);
     n=num2size;
+    int a,b;
     for(int i=0;i<num1size;i++)
     {
-        scanf("%d",&nums1[i]);
+        cin>>a;
+        nums1.push_back(a);
     }
     for(int i=0;i<num2size;i++)
     {
-        scanf("%d",&nums2[i]);
+        cin>>b;
+        nums2.push_back(b);
     }
     merge(nums1,num1size,m,nums2,num2size,n);
     for(int i=0;i<num1size;i++)
     {
-        printf("%d",nums1[i]);
+        cout<<nums1[i];
     } 
+    return 0;
     
 }
 
