@@ -33,43 +33,52 @@ Constraints:
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#include <stdio.h>
-int maximise(int a[][2],int j,int trucksize){
-    int i=0,total=0,count=0;
-    while(i<j && count<trucksize){
-        if(count+a[i][0]<=trucksize){
-            count+=a[i][0];
-            total+=a[i][0]*a[i][1];
-        }
-        else{
-            total+=(trucksize-count)*a[i][1];
-            count=trucksize;
-        }
-        i++;
-    }
-    return total;
-}
+#include <iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+static bool mycomp(vector<int> &a,vector<int> &b){
+    if(a[1]>=b[1]){return 1;}
+	else{return 0;}
+	}
+
+int maximumUnits(vector<vector<int>>& boxTypes, int truckSize) {
+
+	sort(boxTypes.begin(), boxTypes.end(), mycomp);
+
+		long long int ans = 0;
+
+		for(int i=0;i<boxTypes.size();i++){
+
+			ans += min(truckSize,boxTypes[i][0]) * boxTypes[i][1];
+
+			truckSize -= min(truckSize,boxTypes[i][0]);
+
+			if(truckSize == 0) break;
+
+		}
+
+		return ans;
+	}
 int main()
 {
-    int a[10][2]={{2,2},{1,3},{3,1}},i,j=3;
-    for(i=0;i<3;i++)
-    {
-        for(j=i+1;j<3;j++){
-            if(a[i][1]<a[j][1]){
-                int temp=a[i][1];
-                int val=a[i][0];
-                a[i][0]=a[j][0];
-                a[i][1]=a[j][1];
-                a[j][1]=temp;
-                a[j][0]=val;
-               
-            }
-        }
-    }
-    int trucksize;
-    printf("enter truck size");
-    scanf("%d",&trucksize);
-    int res=maximise(a,j,trucksize);
-     printf("%d",res);
+   int n,a,b,trucksize;
+   cout<<"enter size";
+   cin>>n;
+   cout<<"enter truck size";
+   cin>>trucksize;
+   vector<vector<int>> boxtypes;
+   for(int i=0;i<n;i++){
+       vector<int> temp;
+       cout<<"enter 2 element";
+       cin>>a;
+       temp.push_back(a);
+       cin>>b;
+       temp.push_back(b);
+       boxtypes.push_back(temp);
+   }
+   int res=maximumUnits(boxtypes,trucksize);
+   printf("%d",res);
     return 0;
+    
 }
