@@ -129,9 +129,8 @@ struct ListNode* mergeTwoSorted(struct ListNode* list1,struct  ListNode* list2) 
     {
         if(lists.size()==0) return NULL;
         while(lists.size() > 1){
-            lists.push_back(mergeTwoSorted(lists[0], lists[1])); // time consuming 
-            // erase first 2 heads of lists
-            lists.erase(lists.begin()); // time consuming 
+            lists.push_back(mergeTwoSorted(lists[0], lists[1]));
+            lists.erase(lists.begin()); 
             lists.erase(lists.begin());
         }
         return lists[0];
