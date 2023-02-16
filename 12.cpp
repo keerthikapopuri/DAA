@@ -15,7 +15,6 @@ vector<int> prefixfunction(string s){
     }
     return pr;
 }
-//check whether target string contains pattern 
  
 int main()
 {
